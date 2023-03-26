@@ -80,4 +80,32 @@ public class AppServiceImpl implements AppService {
             return validTransactions;
         }
 
+    @Override
+    public Collection<Transaction> matchingEngine() {
+            //get the list of valid transactions
+            Collection<Transaction> validTransactions = getValidation();
+            //match the transactions with opposite fromId and toId and same date, save this pair as a matched transaction and randomly generate a trading id for it
+            Collection<Transaction> matchedTransactions = new ArrayList<>();
+            for (Transaction transaction : validTransactions) {
+                for (Transaction transaction2 : validTransactions) {
+                    if (transaction.getFromId() == transaction2.getToId()
+                            && transaction.getToId() == transaction2.getFromId()
+                            && transaction.getDate().compareTo(transaction2.getDate()) == 0) {
+                        Transaction matchedTransaction = new Transaction();
+                        matchedTransaction.setFromId(transaction.getFromId());
+                        matchedTransaction.setToId(transaction.getToId());
+                        matchedTransaction.setAmount(transaction.getAmount());
+                        matchedTransaction.setPrice(transaction.getPrice());
+                        matchedTransaction.setDate(transaction.getDate());
+                        matchedTransaction.setTradeId("tradeId");
+                        matchedTransactions.add(matchedTransaction);
+                    }
+                }
+            }
+            return matchedTransactions;
+
+
+
+    }
+
 }

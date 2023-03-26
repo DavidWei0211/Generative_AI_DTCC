@@ -15,4 +15,7 @@ public interface AppService {
 
     Collection<Transaction> getValidation();
 
+    Collection<Transaction> matching();
+
+    Collection<Transaction> matchingEngine();
 }
